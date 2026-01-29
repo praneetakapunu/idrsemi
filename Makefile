@@ -54,6 +54,13 @@ syn:
 	echo "write_verilog $(RESULTS_DIR)/counter_syn.v" >> $(SYN_DIR)/synth.ys
 	$(YOSYS) -s $(SYN_DIR)/synth.ys
 
+# Test PicoRV32 synthesis
+.PHONY: test-picorv32
+test-picorv32:
+	@echo "Testing PicoRV32 synthesis..."
+	@echo "This will show resource usage for the RISC-V core..."
+	$(YOSYS) -p "read_verilog picorv32/picorv32.v; synth -top picorv32; stat" | grep -E "(Number of|Chip area)"
+
 # Clean generated files
 .PHONY: clean
 clean:
